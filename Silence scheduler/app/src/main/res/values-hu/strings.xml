@@ -1,0 +1,50 @@
+<resources>
+    <string name="app_name">Némítás ütemező</string>
+    <string name="unmute">Némítás feloldása most</string>
+    <string name="mute">Némítás a fent beállított időpontig</string>
+    <string name="edit">Szerkesztés</string>
+    <string name="delete">Törlés</string>
+    <string name="add_item">Elem hozzáadása</string>
+    <string name="dontShowAgain">Ne mutasd többször</string>
+
+    <string-array name="days">
+        <item>Hétfő</item>
+        <item>Kedd</item>
+        <item>Szerda</item>
+        <item>Csütörtök</item>
+        <item>Péntek</item>
+        <item>Szombat</item>
+        <item>Vasárnap</item>
+    </string-array>
+    <string name="settings">Beállítások</string>
+    <string name="recurring_mute">Ismétlődő némítás</string>
+    <string name="mute_now">Némítás most</string>
+    <string name="button_ok">OK</string>
+    <string name="button_cancel">Mégsem</string>
+    <string name="new_period_dialog_title">Új némítandó időtartam</string>
+    <string name="your_phone_will_be_muted_in_the_periods_below">A telefon néma lesz az alábbi időintervallumokban:</string>
+    <string name="add_period">Időintervallum hozzáadása</string>
+    <string name="mute_now_description">Állítsd be az időt, majd nyomd meg a \"Némítás most\" gombbal! A telefon addig néma lesz.\nHa közben visszahangosítanád a telefonodat, nyomd meg a \"Némítás feloldása most\" gombot.</string>
+    <string name="mute_from_every">Néma üzemmód kezdete:</string>
+    <string name="mute_until_every">Néma üzemmód vége:</string>
+    <string name="icon">ikon</string>
+    <string name="dnd_permission_request_message">Kérem engedélyezze a Ne zavarjanak üzemmódhoz való hozzáférést a listában! Különben nem tudom kezelni a némítást.</string>
+    <string name="dnd_positive_btn_text">Ugrás a Ne zavarjanak üzemmód engedélyekhez</string>
+    <string name="huawei_access_request_text">A Némítás ütemező app számára szükséges, hogy engedélyezze a \'Védett alkalmazások\' között.</string>
+    <string name="huawei_access_request_positive_btn_text">Védett alkalmazások</string>
+    <string name="huawei_access_title">Huawei Védett Alkalmazások</string>
+    <string name="xiaomi_access_alert_text">Kérem engedélyezze az automatikus indításhoz való hozzáférést a Némítás ütemező számára! Különben az app hibásan működhet újraindítás esetén.</string>
+    <string name="xiaomi_positive_btn_text">Ugrás az automatikus indítás engedélyekhez</string>
+    <string name="xiaomi_access_alert_title">Xiaomi automatikus indítás</string>
+    <string name="clock_format_compat">24 órás formátum</string>
+    <string name="about_intro">Nektek csináltam ingyen ezt az alkalmazást, használjátok örömmel.</string>
+    <string name="language">Nyelv</string>
+    <string name="unmuted_chanel_description">Értesít, amikor az alkalmazás időzítés szerint felhangosítja a telefont</string>
+    <string name="dnd_access">Ne zavarjanak engedély</string>
+    <string name="unmuted_chanel_name">Felhangosítva</string>
+    <string name="unmuted_notification_title">Automatikusan felhangosítva</string>
+    <string name="granted">Már engedélyeztem.</string>
+    <string name="about_title">Névjegy</string>
+    <string name="about_contact"> Ha tapasztalsz valami hibát, koppints és írd meg e-mailben!</string>
+    <string name="god_bless_you">Isten áldjon!</string>
+</resources>

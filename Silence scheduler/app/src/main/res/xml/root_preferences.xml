@@ -1,0 +1,40 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        app:title="@string/settings">
+
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:key="24hour"
+            app:title="@string/clock_format_compat" />
+
+    </PreferenceCategory>
+
+<!--    <ListPreference-->
+<!--        app:key="reply"-->
+<!--        app:title="@string/language"-->
+<!--        app:entries="@array/language_entries"-->
+<!--        app:entryValues="@array/language_values"-->
+<!--        app:defaultValue="english"-->
+<!--        app:useSimpleSummaryProvider="true"/>-->
+
+    <PreferenceCategory
+        app:title="@string/about_title"
+        >
+
+        <Preference app:title="@string/about_intro"/>
+
+            <Preference
+                app:title="@string/about_contact">
+
+                <intent
+                    android:action="android.intent.action.SENDTO"
+                    android:data="mailto:andras.vesztergombi@gmail.com?subject=Silence scheduler android app"
+                    />
+            </Preference>
+
+        <Preference app:title="@string/god_bless_you" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

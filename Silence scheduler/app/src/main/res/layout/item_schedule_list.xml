@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingBottom="8dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="8dp">
+
+
+    <ImageView
+        android:id="@+id/ivIcon"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginEnd="10dp"
+        android:src="@drawable/ic_baseline_do_not_disturb_on_total_silence_24"
+        android:contentDescription="@string/icon" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/mute_from_every"/>
+
+        <TextView
+            android:id="@+id/tvMuteFrom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Tuesday 10:00" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/mute_until_every" />
+
+        <TextView
+            android:id="@+id/tvMuteUntil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Tuesday 18:00" />
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/ibEdit"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_vertical"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_pencil_grey600_48dp"
+        android:contentDescription="@string/edit" />
+    <ImageButton
+        android:id="@+id/ibRemove"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_vertical"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_delete_grey600_48dp"
+        android:contentDescription="@string/delete" />
+
+</LinearLayout>

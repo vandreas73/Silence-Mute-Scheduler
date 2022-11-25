@@ -1,0 +1,50 @@
+<resources>
+    <string name="app_name">Silence Scheduler</string>
+    <string name="unmute">Unmute now</string>
+    <string name="mute">Mute until above</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="add_item">Add item</string>
+    <string name="dontShowAgain">Do not show again</string>
+
+    <string-array name="days">
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+        <item>Sunday</item>
+    </string-array>
+    <string name="settings">Settings</string>
+    <string name="recurring_mute">Recurring mute</string>
+    <string name="mute_now">Mute now</string>
+    <string name="button_ok">OK</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="new_period_dialog_title">New period to mute</string>
+    <string name="your_phone_will_be_muted_in_the_periods_below">Your phone will be muted in the periods below:</string>
+    <string name="add_period">Add period</string>
+    <string name="mute_now_description">Set time, then press \"Mute until above\" button. Phone will be muted until this time.\nIf you\'d like to unmute your phone, press \"Unmute now\".</string>
+    <string name="mute_from_every">Mute from every:</string>
+    <string name="mute_until_every">Mute until every:</string>
+    <string name="icon">icon</string>
+    <string name="dnd_permission_request_message">Please enable Do Not Disturb permission for Silence Scheduler in the list. Else I can\'t mute your phone.</string>
+    <string name="dnd_positive_btn_text">Go to Do Not Disturb Access</string>
+    <string name="huawei_access_request_text">Silence scheduler requires to be enabled in \'Protected Apps\' to function properly.%n</string>
+    <string name="huawei_access_request_positive_btn_text">Protected Apps</string>
+    <string name="huawei_access_title">Huawei Protected Apps</string>
+    <string name="xiaomi_access_alert_text">Please enable autostart permission for Silence scheduler to function properly. Else it might not work after reboot.</string>
+    <string name="xiaomi_positive_btn_text">Go to Autostart permission</string>
+    <string name="xiaomi_access_alert_title">Xiaomi autostart permission</string>
+    <string name="clock_format_compat">Show clock in 24-hours format</string>
+    <string name="about_intro">I made this app freely for you, enjoy it.</string>
+    <string name="language">Language</string>
+    <string name="unmuted_chanel_description">Notifys when app unmutes phone automatically</string>
+    <string name="unmuted_chanel_name">Unmuted</string>
+    <string name="unmuted_notification_title">Unmuted automatically</string>
+    <string name="dnd_access">Do Not Disturb Access</string>
+    <string name="granted">I already granted it.</string>
+    <string name="about_title">About</string>
+    <string name="about_contact">If you experinece any problems, please tap and send an email!</string>
+    <string name="god_bless_you">God bless you!</string>
+</resources>
