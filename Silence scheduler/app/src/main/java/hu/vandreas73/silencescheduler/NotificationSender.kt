@@ -8,7 +8,6 @@ import android.content.Intent
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.TaskStackBuilder
-import hu.vandreas73.silencescheduler.R
 
 class NotificationSender(
     val context: Context,

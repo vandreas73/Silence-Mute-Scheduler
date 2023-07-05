@@ -4,11 +4,11 @@ import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.media.AudioManager
 import android.util.Log
 import androidx.core.content.getSystemService
 import androidx.core.os.UserManagerCompat
-import hu.vandreas73.silencescheduler.R
 import java.util.*
 
 
@@ -42,9 +42,11 @@ class MuteUnmuteReceiver : BroadcastReceiver() {
         notificationSender.sendNotification(0, context.getString(R.string.unmuted_notification_title))
         audioManager.ringerMode = AudioManager.RINGER_MODE_NORMAL
         val cal = calendarIfWeeklyRepeating()
+        val alarmSetter = hu.vandreas73.silencescheduler.AlarmSetter(context)
         if (cal != null){
-            val alarmSetter = hu.vandreas73.silencescheduler.AlarmSetter(context)
             alarmSetter.setUnmuteAlarm(cal)
+        } else {
+            alarmSetter.invalidateAlarm()
         }
 
     }

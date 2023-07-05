@@ -21,14 +21,22 @@ class AlarmSetter(val context: Context) {
         Log.d("mylog", "AlarmSetter constructor")
     }
 
-    var dayOfYearKey = "dayOfYear"
-    var hourKey = "hour"
-    var minuteKey = "minute"
-    var validKey = "valid";
+    companion object {
+        var dayOfYearKey = "dayOfYear"
+        var hourKey = "hour"
+        var minuteKey = "minute"
+        var validKey = "valid"
+    }
+
     fun getHour() = sharedPreferences.getInt(hourKey, 0)
     fun getMinute() = sharedPreferences.getInt(minuteKey, 0)
     fun getDayOfYear() = sharedPreferences.getInt(dayOfYearKey, 0)
     fun getValid() = sharedPreferences.getInt(validKey, 0)
+    fun invalidateAlarm() {
+        val editor = sharedPreferences.edit()
+        editor.putInt(validKey, 0)
+        editor.commit()
+    }
 
     fun saveData(alarmCalendar: Calendar) {
         val editor = sharedPreferences.edit()
@@ -56,7 +64,7 @@ class AlarmSetter(val context: Context) {
         }
     }
 
-    fun setUnmuteAlarm(alarmCalendar: Calendar){
+    fun setUnmuteAlarm(alarmCalendar: Calendar) {
         val pendingIntent = createUnmuteIntent(alarmCalendar)
         val alarmTime = alarmCalendar.timeInMillis
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
@@ -70,7 +78,7 @@ class AlarmSetter(val context: Context) {
         alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, alarmTime, pendingIntent)
     }
 
-    private fun createUnmuteIntent(alarmCalendar: Calendar): PendingIntent{
+    private fun createUnmuteIntent(alarmCalendar: Calendar): PendingIntent {
         val intent = Intent(context, hu.vandreas73.silencescheduler.MuteUnmuteReceiver::class.java)
         intent.action = "hu.vandreas73.silencescheduler.unmute"
         return createPendingIntent(alarmCalendar, intent)
@@ -95,7 +103,7 @@ class AlarmSetter(val context: Context) {
         return pendingIntent
     }
 
-    fun cancelSavedAlarm(){
+    fun cancelSavedAlarm() {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context, hu.vandreas73.silencescheduler.MuteUnmuteReceiver::class.java)
         intent.action = "hu.vandreas73.silencescheduler.unmute"
@@ -107,10 +115,9 @@ class AlarmSetter(val context: Context) {
             context, 0, intent,
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
-        try{
+        try {
             alarmManager.cancel(pendingIntent)
-        }
-        catch(e: Exception){
+        } catch (e: Exception) {
             Log.e("mylog", e.toString())
         }
         val editor = sharedPreferences.edit()
@@ -124,30 +131,29 @@ class AlarmSetter(val context: Context) {
     }
 
 
-    fun cancelUnmuteAlarm(calendar: Calendar){
+    fun cancelUnmuteAlarm(calendar: Calendar) {
         val pendingIntent = createUnmuteIntent(calendar)
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        try{
+        try {
             alarmManager.cancel(pendingIntent)
-        }
-        catch(e: Exception){
+        } catch (e: Exception) {
             Log.e("mylog", e.toString())
         }
     }
 
-    fun cancelMuteAlarm(calendar: Calendar){
+    fun cancelMuteAlarm(calendar: Calendar) {
         val pendingIntent = createMuteIntent(calendar)
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        try{
+        try {
             alarmManager.cancel(pendingIntent)
-        }
-        catch(e: Exception){
+        } catch (e: Exception) {
             Log.e("mylog", e.toString())
         }
     }
 
     fun disableEnableBootReceiver(context: Context) {
-        val receiver = ComponentName(context, hu.vandreas73.silencescheduler.BootReceiver::class.java)
+        val receiver =
+            ComponentName(context, hu.vandreas73.silencescheduler.BootReceiver::class.java)
         context.packageManager.setComponentEnabledSetting(
             receiver,
             PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP
