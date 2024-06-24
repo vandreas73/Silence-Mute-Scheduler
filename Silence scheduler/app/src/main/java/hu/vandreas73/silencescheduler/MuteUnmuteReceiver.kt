@@ -37,6 +37,9 @@ class MuteUnmuteReceiver : BroadcastReceiver() {
     }
 
     private fun handleUnmute(){
+        val notificationManager =
+            context.getSystemService<NotificationManager>() as NotificationManager
+        notificationManager.cancel(0)
         val notificationSender =
             NotificationSender(context, context.getString(R.string.unmuted_chanel_name), context.getString(R.string.unmuted_chanel_description))
         notificationSender.sendNotification(0, context.getString(R.string.unmuted_notification_title))
@@ -47,6 +50,7 @@ class MuteUnmuteReceiver : BroadcastReceiver() {
             alarmSetter.setUnmuteAlarm(cal)
         } else {
             alarmSetter.invalidateAlarm()
+            alarmSetter.cancelSavedAlarm()
         }
 
     }

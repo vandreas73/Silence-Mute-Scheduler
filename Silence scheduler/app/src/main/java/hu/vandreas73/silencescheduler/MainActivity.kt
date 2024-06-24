@@ -1,5 +1,6 @@
 package hu.vandreas73.silencescheduler
 
+import android.app.PendingIntent
 import android.content.*
 import android.media.AudioManager
 import android.os.Bundle
@@ -26,7 +27,7 @@ class MainActivity : AppCompatActivity(), MuteNowFragment.MainListener,
     private lateinit var binding: ActivityMainBinding
 
     private lateinit var database: ScheduleListDatabase
-    private lateinit var alarmSetter: hu.vandreas73.silencescheduler.AlarmSetter
+    private lateinit var alarmSetter: AlarmSetter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,10 +46,16 @@ class MainActivity : AppCompatActivity(), MuteNowFragment.MainListener,
         val allAccessManager = AllAccessManager(this)
         allAccessManager.checkAndRequestPermissions()
         if (allAccessManager.arePermissionsGranted()) {
-            alarmSetter = hu.vandreas73.silencescheduler.AlarmSetter(this)
+            alarmSetter = AlarmSetter(this)
             val alarmCalendar = nextDayCalculate(hour, minute)
             alarmSetter.saveData(alarmCalendar)
             alarmSetter.setAlarmFromSavedData()
+            val unmuteIntent = Intent(this, MuteUnmuteReceiver::class.java).apply{
+                action = "hu.vandreas73.silencescheduler.unmute"
+                putExtra("extra_notification_id", 0)
+            }
+            val unmutePendingIntent: PendingIntent = PendingIntent.getBroadcast(this, 0, unmuteIntent,
+                PendingIntent.FLAG_IMMUTABLE)
 
             val audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
             audioManager.ringerMode = AudioManager.RINGER_MODE_SILENT
@@ -65,7 +72,7 @@ class MainActivity : AppCompatActivity(), MuteNowFragment.MainListener,
             val content = "Phone will be muted until ${String.format("%02d", alarmCalendar.get(Calendar.HOUR_OF_DAY))}:${
                 String.format("%02d", alarmCalendar.get(Calendar.MINUTE))
             }"
-            notificationSender.sendNotification(0, "Muted", content)
+            notificationSender.sendNotification(0, "Muted", content, unmutePendingIntent)
         }
     }
 
@@ -89,7 +96,7 @@ class MainActivity : AppCompatActivity(), MuteNowFragment.MainListener,
         if (AllAccessManager(this).checkAndRequestPermissions()) {
             val audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
             audioManager.ringerMode = AudioManager.RINGER_MODE_NORMAL
-            hu.vandreas73.silencescheduler.AlarmSetter(this).cancelSavedAlarm()
+            AlarmSetter(this).cancelSavedAlarm()
         }
     }
 
@@ -109,7 +116,7 @@ class MainActivity : AppCompatActivity(), MuteNowFragment.MainListener,
                 newItem.muteUntilHour,
                 newItem.muteUntilMin
             )
-            val aSetter = hu.vandreas73.silencescheduler.AlarmSetter(this)
+            val aSetter = AlarmSetter(this)
             aSetter.setMuteAlarm(muteFrom)
             aSetter.setUnmuteAlarm(muteUntil)
 

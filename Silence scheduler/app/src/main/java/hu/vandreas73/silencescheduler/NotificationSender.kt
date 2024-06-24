@@ -27,7 +27,7 @@ class NotificationSender(
     }
 
 
-    fun sendNotification(id: Int, title: String, content: String? = null) {
+    fun sendNotification(id: Int, title: String, content: String? = null, unmutePendingIntent: PendingIntent? = null) {
         val resultIntent = Intent(context, MainActivity::class.java)
         val resultPendingIntent: PendingIntent? = TaskStackBuilder.create(context).run {
             addNextIntentWithParentStack(resultIntent)
@@ -36,12 +36,15 @@ class NotificationSender(
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
         }
-        val builder = NotificationCompat.Builder(context, chanelId)
+
+        var builder = NotificationCompat.Builder(context, chanelId)
             .setSmallIcon(R.drawable.ic_baseline_volume_mute_24)
             .setContentTitle(title)
             .setContentText(content)
             .setContentIntent(resultPendingIntent)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+        if (unmutePendingIntent != null)
+            builder = builder.addAction(R.drawable.ic_baseline_volume_mute_24, "Unmute now", unmutePendingIntent)
 
         with(NotificationManagerCompat.from(context)) {
             // notificationId is a unique int for each notification that you must define
