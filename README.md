@@ -1,3 +1,20 @@
+# Silence / Mute Scheduler
+
+This repository holds two independent Android apps.
+
+| Directory | App | State |
+|---|---|---|
+| `Silence scheduler/` | **Silence Scheduler** — the original app. Timed mute plus recurring schedules. Views, fragments, Room. | Kept for reference. Not developed further. |
+| `MuteUntil/` | **MuteUntil** — the rewrite. Mute until a clock time, one screen, Jetpack Compose. No recurring schedules. | Current. |
+
+Each directory is its own Gradle build. The two share nothing but this
+repository. The design of MuteUntil is in
+[`docs/superpowers/specs`](docs/superpowers/specs).
+
+The original homework specification follows.
+
+---
+
 # Házi feladat specifikáció
 
 Információk [itt](https://viauac00.github.io/laborok/hf)

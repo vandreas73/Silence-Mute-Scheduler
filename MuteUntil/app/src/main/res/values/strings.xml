@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MuteUntil</string>
+
+    <!-- Status line -->
+    <string name="status_not_muted">Not muted</string>
+    <string name="status_muted_until">Muted until %1$s</string>
+
+    <!-- Actions -->
+    <string name="action_mute_until">Mute until %1$s</string>
+    <string name="action_unmute_now">Unmute now</string>
+    <string name="action_dismiss">Dismiss</string>
+
+    <!-- Banner for the two mandatory accesses -->
+    <string name="access_required_title">Setup needed</string>
+    <string name="access_required_body">The app cannot guarantee the unmute yet. Grant the accesses below, then return here.</string>
+    <string name="access_policy_action">Allow Do Not Disturb</string>
+    <string name="access_alarm_action">Allow exact alarms</string>
+
+    <!-- Optional accesses -->
+    <string name="access_notifications_title">Notifications</string>
+    <string name="access_notifications_body">The app shows the mute in the status bar. The notification carries an Unmute now action.</string>
+    <string name="access_notifications_action">Allow notifications</string>
+    <string name="access_battery_title">Battery optimisation</string>
+    <string name="access_battery_body">Some phones delay alarms to save power. An exemption keeps the unmute on time.</string>
+    <string name="access_battery_action">Open battery settings</string>
+    <string name="access_autostart_title">Autostart</string>
+    <string name="access_autostart_body">Xiaomi phones stop the app after a restart. Autostart lets the app re-arm the pending unmute.</string>
+    <string name="access_autostart_action">Open autostart settings</string>
+
+    <!-- Notifications -->
+    <string name="notification_muted_title">Muted</string>
+    <string name="notification_muted_text">Muted until %1$s</string>
+    <string name="notification_problem_title">MuteUntil</string>
+    <string name="problem_cannot_unmute">MuteUntil could not turn the ringer back on, because it lost the Do Not Disturb access. Your phone is still silent. Set the ringer yourself in Settings.</string>
+
+    <!-- Errors -->
+    <string name="error_no_policy_access">Do Not Disturb access is missing. The ringer did not change.</string>
+    <string name="error_no_exact_alarm">Exact alarm access is missing. The ringer did not change.</string>
+    <string name="error_settings_unavailable">This phone has no such settings screen.</string>
+</resources>

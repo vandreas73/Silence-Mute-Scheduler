@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Light variant. Compose draws the real UI, so this theme only sets the
+         window chrome that shows before the first frame. -->
+    <style name="Theme.MuteUntil" parent="android:Theme.Material.Light.NoActionBar" />
+</resources>
