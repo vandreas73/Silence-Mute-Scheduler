@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Background layer of the adaptive launcher icon. Matches the primary of the
+         fallback palette in Theme.kt. -->
+    <color name="ic_launcher_background">#44618D</color>
+</resources>

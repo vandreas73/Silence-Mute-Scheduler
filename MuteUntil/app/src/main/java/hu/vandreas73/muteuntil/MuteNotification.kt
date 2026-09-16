@@ -37,7 +37,7 @@ class MuteNotification(private val context: Context) {
             .setContentText(context.getString(R.string.notification_muted_text, clock))
             .setOngoing(true)
             .addAction(
-                R.drawable.ic_volume_mute,
+                R.drawable.ic_volume_off,
                 context.getString(R.string.action_unmute_now),
                 UnmuteReceiver.pendingIntent(context, UNMUTE_ACTION_REQUEST_CODE),
             )
@@ -61,7 +61,7 @@ class MuteNotification(private val context: Context) {
     }
 
     private fun builder(channelId: String = CHANNEL_ID) = NotificationCompat.Builder(context, channelId)
-        .setSmallIcon(R.drawable.ic_volume_mute)
+        .setSmallIcon(R.drawable.ic_volume_off)
         .setContentIntent(openAppIntent())
         .setShowWhen(false)
 
