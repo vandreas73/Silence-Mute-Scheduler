@@ -35,7 +35,7 @@ plugin. The build fails if you do.
 1. The screen shows a time picker and the current state.
 2. You pick a time and press **Mute until hh:mm**. The ringer goes silent.
 3. A notification appears: "Muted until hh:mm". It carries an **Unmute now**
-   action. It is ongoing, so you cannot swipe it away.
+   action. It is marked ongoing.
 4. At the chosen time the phone returns to normal and the notification clears.
 5. **Unmute now**, in the app or in the notification, ends the mute early and
    cancels the alarm.
@@ -174,8 +174,11 @@ mandatory accesses disable the button rather than warn.
 - Ringer cannot be restored, because policy access was revoked while muted:
   clear the stored state and post a problem notification. Never leave the phone
   silent with no explanation.
-- The muted notification is `ongoing`, so the Unmute now action cannot be swiped
-  away by accident.
+- The muted notification is marked `ongoing`, but that no longer prevents
+  dismissal. Measured on Android 16: a swipe removes it. The mute and the alarm
+  are unaffected, and the app screen still shows the state with its own Unmute
+  now button, so the user is never stranded. `MainActivity.onResume` re-posts the
+  notification while a mute runs, which puts the action back.
 - Picking the time that equals now rolls to tomorrow, because the comparison is
   strictly greater than.
 

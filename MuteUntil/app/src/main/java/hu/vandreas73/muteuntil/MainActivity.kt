@@ -17,4 +17,11 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        // The user can swipe the muted notification away. Opening the app brings
+        // the Unmute now action back.
+        AppGraph.controller(this).refreshNotification()
+    }
 }

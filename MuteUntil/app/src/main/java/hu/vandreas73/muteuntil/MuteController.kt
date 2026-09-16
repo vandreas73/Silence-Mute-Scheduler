@@ -44,6 +44,16 @@ class MuteController(
         }
     }
 
+    /**
+     * Puts the muted notification back when a mute is still running. Android lets
+     * the user swipe an ongoing notification away, which takes the Unmute now
+     * action with it. Opening the app restores it.
+     */
+    fun refreshNotification() {
+        val deadline = store.get() ?: return
+        notifications.showMuted(deadline)
+    }
+
     /** Called on boot. Unmutes if the deadline passed while off, else re-arms. */
     fun restoreAfterBoot() {
         val deadline = store.get() ?: return
