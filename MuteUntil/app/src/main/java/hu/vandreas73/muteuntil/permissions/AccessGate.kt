@@ -30,7 +30,6 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -85,12 +84,25 @@ fun readAccessState(context: Context): AccessState {
 @Stable
 class AccessGateState internal constructor(private val context: Context) {
 
+    private val prompts = PromptStore(context)
+
     var access: AccessState by mutableStateOf(readAccessState(context))
         private set
 
     /** True when the last [open] found no such screen on this phone. */
     var settingsUnavailable: Boolean by mutableStateOf(false)
         private set
+
+    private var handled: Set<Access> by mutableStateOf(prompts.handled())
+
+    /** True once the user has opened or dismissed the prompt for [access]. */
+    fun isHandled(access: Access): Boolean = access in handled
+
+    /** Records that the user dealt with [access], so the prompt never returns. */
+    fun markHandled(access: Access) {
+        prompts.markHandled(access)
+        handled = handled + access
+    }
 
     fun refresh() {
         access = readAccessState(context)
@@ -100,6 +112,10 @@ class AccessGateState internal constructor(private val context: Context) {
      * Opens the system screen for [target]. The Xiaomi autostart activity is absent
      * on every other brand, so a failure sets [settingsUnavailable] instead of
      * throwing.
+     *
+     * A screen that opened counts as handled. The app cannot read the Xiaomi
+     * autostart setting, so whether the user granted it there is unknowable, and
+     * asking again every launch is worse than trusting them once.
      */
     fun open(target: Access) {
         val intent = intentFor(target, context.packageName)
@@ -109,6 +125,7 @@ class AccessGateState internal constructor(private val context: Context) {
         }
         settingsUnavailable = try {
             context.startActivity(intent)
+            markHandled(target)
             false
         } catch (_: ActivityNotFoundException) {
             true
@@ -199,33 +216,33 @@ fun MandatoryAccess(state: AccessGateState, modifier: Modifier = Modifier) {
 @Composable
 fun OptionalAccess(state: AccessGateState, modifier: Modifier = Modifier) {
     val access = state.access
-    var notificationsDismissed by rememberSaveable { mutableStateOf(false) }
-    var batteryDismissed by rememberSaveable { mutableStateOf(false) }
-    var autostartDismissed by rememberSaveable { mutableStateOf(false) }
 
     val requestNotifications = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission(),
     ) { state.refresh() }
 
     Column(modifier, verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        if (!access.postNotifications && !notificationsDismissed) {
+        if (!access.postNotifications && !state.isHandled(Access.PostNotifications)) {
             AccessCard(
                 title = stringResource(R.string.access_notifications_title),
                 body = stringResource(R.string.access_notifications_body),
-                onDismiss = { notificationsDismissed = true },
+                onDismiss = { state.markHandled(Access.PostNotifications) },
             ) {
                 AccessButton(
                     label = stringResource(R.string.access_notifications_action),
-                    onClick = { requestNotifications.launch(Manifest.permission.POST_NOTIFICATIONS) },
+                    onClick = {
+                        state.markHandled(Access.PostNotifications)
+                        requestNotifications.launch(Manifest.permission.POST_NOTIFICATIONS)
+                    },
                 )
             }
         }
 
-        if (!access.batteryOptimisation && !batteryDismissed) {
+        if (!access.batteryOptimisation && !state.isHandled(Access.BatteryOptimisation)) {
             AccessCard(
                 title = stringResource(R.string.access_battery_title),
                 body = stringResource(R.string.access_battery_body),
-                onDismiss = { batteryDismissed = true },
+                onDismiss = { state.markHandled(Access.BatteryOptimisation) },
             ) {
                 AccessButton(
                     label = stringResource(R.string.access_battery_action),
@@ -234,11 +251,13 @@ fun OptionalAccess(state: AccessGateState, modifier: Modifier = Modifier) {
             }
         }
 
-        if (access.xiaomiPhone && !autostartDismissed) {
+        // Xiaomi exposes no API for the autostart state, so the card hides once the
+        // user has opened that screen or dismissed the card.
+        if (access.xiaomiPhone && !state.isHandled(Access.XiaomiAutostart)) {
             AccessCard(
                 title = stringResource(R.string.access_autostart_title),
                 body = stringResource(R.string.access_autostart_body),
-                onDismiss = { autostartDismissed = true },
+                onDismiss = { state.markHandled(Access.XiaomiAutostart) },
             ) {
                 AccessButton(
                     label = stringResource(R.string.access_autostart_action),

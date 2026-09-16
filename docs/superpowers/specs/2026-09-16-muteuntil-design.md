@@ -169,6 +169,14 @@ object AppGraph {
 An unmute we cannot guarantee is worse than no mute at all. That is why the two
 mandatory accesses disable the button rather than warn.
 
+Four of these accesses can be read back, so their cards disappear by themselves
+once granted. **Xiaomi autostart cannot.** Xiaomi keeps that setting private and
+publishes no API for it, so the app cannot tell whether the user granted it. The
+app therefore records that the user opened the autostart screen, or dismissed the
+card, and never asks again. `PromptStore` keeps that record in ordinary
+SharedPreferences. Without it the card returns on every launch, even right after
+the user grants autostart.
+
 ## Error handling
 
 - Ringer cannot be restored, because policy access was revoked while muted:
