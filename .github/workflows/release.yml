@@ -53,8 +53,15 @@ jobs:
           distribution: temurin
           java-version: '21'
 
+      # This action installs "tools platform-tools" by default. Google removed the
+      # legacy "tools" package from the SDK repository, so the default fails with
+      # "Failed to find package 'tools'". Install nothing: the step is only here to
+      # provide cmdline-tools and accept the licences. AGP then downloads the exact
+      # platform it needs, which for compileSdk 37 is android-37.0.
       - name: Set up the Android SDK
         uses: android-actions/setup-android@v3
+        with:
+          packages: ''
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
