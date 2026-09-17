@@ -24,7 +24,14 @@ on:
   push:
     tags:
       - 'v*'
+  # Manual run from the Actions tab, for when pushing a tag is inconvenient.
+  # Give the version explicitly, or the release would be named after the branch.
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to publish, for example v1.0.0'
+        required: true
+        type: string
 
 permissions:
   contents: write
@@ -65,7 +72,7 @@ jobs:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-          VERSION: ${{ github.ref_name }}
+          VERSION: ${{ inputs.version || github.ref_name }}
         run: |
           set -eu
           OUT_DIR=app/build/outputs/apk/release
@@ -104,7 +111,7 @@ jobs:
       - name: Publish the GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
-          VERSION: ${{ github.ref_name }}
+          VERSION: ${{ inputs.version || github.ref_name }}
           APK: ${{ steps.sign.outputs.apk }}
           SIGNED: ${{ steps.sign.outputs.signed }}
         run: |
@@ -114,7 +121,15 @@ jobs:
           else
             NOTE="WARNING: this APK is unsigned and will not install. Add the signing secrets described in .github/workflows/release.yml, then re-run."
           fi
-          gh release create "$VERSION" "$APK" \
-            --repo "$GITHUB_REPOSITORY" \
-            --title "MuteUntil $VERSION" \
-            --notes "$NOTE"
+          # The release may already exist, for example when it was drafted on the
+          # website. Attach to it in that case instead of failing.
+          if gh release view "$VERSION" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "Release $VERSION already exists. Attaching the APK."
+            gh release upload "$VERSION" "$APK" --repo "$GITHUB_REPOSITORY" --clobber
+          else
+            gh release create "$VERSION" "$APK" \
+              --repo "$GITHUB_REPOSITORY" \
+              --target "$GITHUB_SHA" \
+              --title "MuteUntil $VERSION" \
+              --notes "$NOTE"
+          fi
